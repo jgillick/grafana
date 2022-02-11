@@ -3476,7 +3476,7 @@ steps:
   - mv bin/grabpl /tmp/
   - rmdir bin
   - mv grafana-enterprise /tmp/
-  - /tmp/grabpl init-enterprise --github-token $${GITHUB_TOKEN} /tmp/grafana-enterprise
+  - /tmp/grabpl init-enterprise  /tmp/grafana-enterprise
   - mv /tmp/grafana-enterprise/deployment_tools_config.json deployment_tools_config.json
   - mkdir bin
   - mv /tmp/grabpl bin/
@@ -3485,9 +3485,7 @@ steps:
   - yarn install --immutable
   depends_on:
   - clone-enterprise
-  environment:
-    GITHUB_TOKEN:
-      from_secret: github_token
+  environment: {}
   image: grafana/build-container:1.4.9
   name: initialize
 - commands:
@@ -3811,7 +3809,7 @@ steps:
   - mv bin/grabpl /tmp/
   - rmdir bin
   - mv grafana-enterprise /tmp/
-  - /tmp/grabpl init-enterprise --github-token $${GITHUB_TOKEN} /tmp/grafana-enterprise
+  - /tmp/grabpl init-enterprise  /tmp/grafana-enterprise
   - mv /tmp/grafana-enterprise/deployment_tools_config.json deployment_tools_config.json
   - mkdir bin
   - mv /tmp/grabpl bin/
@@ -3820,9 +3818,7 @@ steps:
   - yarn install --immutable
   depends_on:
   - clone-enterprise
-  environment:
-    GITHUB_TOKEN:
-      from_secret: github_token
+  environment: {}
   image: grafana/build-container:1.4.9
   name: initialize
 - commands:
@@ -3976,7 +3972,7 @@ steps:
   - mv bin/grabpl /tmp/
   - rmdir bin
   - mv grafana-enterprise /tmp/
-  - /tmp/grabpl init-enterprise --github-token $${GITHUB_TOKEN} /tmp/grafana-enterprise
+  - /tmp/grabpl init-enterprise  /tmp/grafana-enterprise
   - mv /tmp/grafana-enterprise/deployment_tools_config.json deployment_tools_config.json
   - mkdir bin
   - mv /tmp/grabpl bin/
@@ -3985,9 +3981,7 @@ steps:
   - yarn install --immutable
   depends_on:
   - clone-enterprise
-  environment:
-    GITHUB_TOKEN:
-      from_secret: github_token
+  environment: {}
   image: grafana/build-container:1.4.9
   name: initialize
 - commands:
@@ -4272,6 +4266,6 @@ kind: secret
 name: gcp_upload_artifacts_key
 ---
 kind: signature
-hmac: 2f3e4a200f53c4de03ce05564cbe081f6fef47dc959a770807864f020037c620
+hmac: d5f3606715082c00cb92fafb83b19469342f47ac70cf2edfcc07b757cb61b539
 
 ...

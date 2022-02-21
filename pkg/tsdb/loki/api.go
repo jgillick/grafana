@@ -10,8 +10,9 @@ import (
 	"net/url"
 	"strconv"
 
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana/pkg/infra/log"
-	"github.com/grafana/loki/pkg/loghttp"
+	"github.com/grafana/grafana/pkg/util/converter"
 	jsoniter "github.com/json-iterator/go"
 )
 
@@ -103,7 +104,7 @@ func makeLokiError(body io.ReadCloser) error {
 	return fmt.Errorf("%v", errorMessage)
 }
 
-func (api *LokiAPI) QueryRange(ctx context.Context, query lokiQuery) (*loghttp.QueryResponse, error) {
+func (api *LokiAPI) QueryRange(ctx context.Context, query lokiQuery) (*backend.DataResponse, error) {
 	req, err := makeRequest(ctx, api.url, query)
 	if err != nil {
 		return nil, err
@@ -124,11 +125,7 @@ func (api *LokiAPI) QueryRange(ctx context.Context, query lokiQuery) (*loghttp.Q
 		return nil, makeLokiError(resp.Body)
 	}
 
-	var response loghttp.QueryResponse
-	err = jsoniter.NewDecoder(resp.Body).Decode(&response)
-	if err != nil {
-		return nil, err
-	}
-
-	return &response, nil
+	iter := jsoniter.Parse(jsoniter.ConfigDefault, resp.Body, 1024)
+	res := converter.ReadPrometheusStyleResult(iter)
+	return res, nil
 }
